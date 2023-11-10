@@ -57,6 +57,7 @@ class ApiController extends Controller
             array_push($arr, $arrTemp);
         }
         return response()->json([
+            'status_code' => 200,
             'data' => $arr,
             'total' => $inven->count()
         ],200);
@@ -91,6 +92,7 @@ class ApiController extends Controller
             array_push($arr, $arrTemp);
         }
         return response()->json([
+            'status_code' => 200,
             'data' => $arr,
             'total' => $product->count()
         ],200);
@@ -143,6 +145,7 @@ class ApiController extends Controller
         $arr['payment_method'] = $cus->payment_method;
 
         return response()->json([
+            'status_code' => 200,
             'data' => $arr
         ],200);
     }
@@ -157,11 +160,13 @@ class ApiController extends Controller
         $user = User::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
+                'status_code' => 422,
                 'message' => 'Email & password salah!'
             ],422);
         }
         $token = $user->createToken($request->device_name)->plainTextToken;
         return response()->json([
+            'status_code' => 200,
             'token' => $token
         ],200);
     }
